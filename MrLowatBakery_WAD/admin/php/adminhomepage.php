@@ -556,7 +556,7 @@
     // Logout function
     function logout() {
         alert('Logged out successfully!');
-        window.location.href = '../../public/pages/index.html'; // Redirect to homepage
+        window.location.href = 'index.html'; // Redirect to homepage
     }
 
     // Function to show Profile Section
