@@ -1,5 +1,7 @@
 <?php
 include_once 'connection.php'; // Database connection
+session_start();
+$error = '';
 
 // Fetch products from database
 $sql = "SELECT * FROM products";
