@@ -1,68 +1,58 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Sample data - this should ideally be generated dynamically from your database
-    const transactions = [
-        { id: 1, payment_method: "Debit card", status: "success", amount: 100 },
-        { id: 2, payment_method: "E wallet", status: "failure", amount: 50 },
-        { id: 3, payment_method: "QR Pay", status: "success", amount: 75 },
-        { id: 4, payment_method: "Debit Card", status: "pending", amount: 120 },
-        { id: 5, payment_method: "E Wallet", status: "success", amount: 45 },
-        { id: 6, payment_method: "QR Pay", status: "failure", amount: 30 },
-        { id: 7, payment_method: "Debit Card", status: "success", amount: 150 },
-        { id: 8, payment_method: "E Wallet", status: "pending", amount: 60 },
-        { id: 9, payment_method: "QR Pay", status: "success", amount: 90 },
-        { id: 10, payment_method: "Debit Card", status: "failure", amount: 80 },
+document.addEventListener("DOMContentLoaded", () => {
+    const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+    const invoiceModal = document.getElementById("invoice-modal");
+    const invoiceBody = document.getElementById("invoice-body");
+    const closeModal = document.querySelector(".close");
+
+    // Dummy Transactions
+    const dummyTransactions = [
+        {
+            transaction_id: "TRX001",
+            description: "Chocolate Cake",
+            qty: 1,
+            unit_price: 20.0,
+            date: "2024-12-30",
+        },
+        {
+            transaction_id: "TRX002",
+            description: "Vanilla Cupcake",
+            qty: 1,
+            unit_price: 15.5,
+            date: "2024-12-28",
+        },
     ];
 
-    // Extract data for the chart
-    const paymentMethods = ['Debit Card', 'E Wallet', 'QR Pay'];
-    const successCount = [0, 0, 0];
-    const failureCount = [0, 0, 0];
+    // Populate Invoice Modal
+    function populateInvoice() {
+        invoiceBody.innerHTML = "";
 
-    transactions.forEach(transaction => {
-        const methodIndex = paymentMethods.indexOf(transaction.payment_method);
-        if (methodIndex !== -1) {
-            if (transaction.status === 'success') {
-                successCount[methodIndex] += transaction.amount;
-            } else if (transaction.status === 'failure') {
-                failureCount[methodIndex] += transaction.amount;
-            }
+        if (dummyTransactions.length === 0) {
+            invoiceBody.innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align: center;">No data yet</td>
+                </tr>`;
+        } else {
+            dummyTransactions.forEach((transaction, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${transaction.description}</td>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.qty}</td>
+                    <td>${transaction.unit_price.toFixed(2)}</td>
+                `;
+                invoiceBody.appendChild(row);
+            });
         }
+
+        invoiceModal.style.display = "block";
+    }
+
+    // Close Modal
+    closeModal.addEventListener("click", () => {
+        invoiceModal.style.display = "none";
     });
 
-    // Set up the chart data
-    const ctx = document.getElementById("transactionChart").getContext("2d");
-    const transactionChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: paymentMethods,
-            datasets: [
-                {
-                    label: 'Success Amount (MYR)',
-                    data: successCount,
-                    backgroundColor: 'rgba(0, 255, 0, 0.6)', // Green for success
-                    borderColor: 'rgba(0, 255, 0, 1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Failure Amount (MYR)',
-                    data: failureCount,
-                    backgroundColor: 'rgba(255, 0, 0, 0.6)', // Red for failure
-                    borderColor: 'rgba(255, 0, 0, 1)',
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Amount (MYR)'
-                    }
-                }
-            }
-        }
-    });
+    // Generate Invoice Button Click
+    generateInvoiceBtn.addEventListener("click", populateInvoice);
 });
