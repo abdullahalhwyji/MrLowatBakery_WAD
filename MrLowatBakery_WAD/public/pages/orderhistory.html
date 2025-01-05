@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - Mr. Lowat Bakery</title>
+    <link rel="stylesheet" href="../assets/style/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header>
+    <h1>Mr. Lowat Bakery</h1>
+    <div class="icon-links">
+        <a href="../pages/homepage.html">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" id="about-us-btn">
+            <i class="fas fa-info-circle"></i>
+            <span>About Us</span>
+        </a>
+        <a href="#" id="contact-btn">
+            <i class="fas fa-phone-alt"></i>
+            <span>Contact</span>
+        </a>
+        <a href="../pages/profile.html">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+</header>
+<!-- About Us Popup -->
+<div class="popup-overlay" id="about-us-popup">
+    <div class="popup-content">
+        <h2>About Us</h2>
+        <p>Mr. Lowat Bakery is a home-based and family-owned bakery that has been serving the community for years.
+            We offer a wide range of freshly baked goods, including brownies, cheese tarts, cakes, and cupcakes. Our products are made with the finest ingredients and are baked fresh daily. Whether you're looking for a sweet treat or a snack, we have something for everyone. Visit us today and experience the delicious taste of Mr. Lowat Bakery.</p>
+        <button class="popup-close" onclick="closePopup('about-us-popup')">Close</button>
+    </div>
+</div>
+
+<!-- Contact Popup -->
+<div class="popup-overlay" id="contact-popup">
+    <div class="popup-content">
+        <h2>Contact</h2>
+        <p>Phone: 016-402-5451</p>
+        <p><a href="https://api.whatsapp.com/send/?phone=60164025451" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></p>
+        <p>
+            Follow us on social media:
+            <a href="https://www.facebook.com/mrlowatbakery/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>,
+            <a href="https://www.instagram.com/mrlowatbake/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        </p>
+        <button class="popup-close" onclick="closePopup('contact-popup')">Close</button>
+    </div>
+</div>
+<script>
+    // Open "About Us" popup
+        document.getElementById('about-us-btn').addEventListener('click', function() {
+            document.getElementById('about-us-popup').style.display = 'flex';
+        });
+
+        // Open "Contact Us" popup
+        document.getElementById('contact-btn').addEventListener('click', function() {
+            document.getElementById('contact-popup').style.display = 'flex';
+        });
+
+        // Close popup function
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+</script>
+
+<main>
+    <div class="order-container">
+        <h1>Order History</h1>
+
+        <!-- Current Orders Section -->
+        <section class="orders-section">
+            <h2>Current Orders</h2>
+            <div class="order-card">
+                <div class="order-info">
+                    <h3>Order #001</h3>
+                    <p>Status: <span class="status-pending">Pending</span></p>
+                    <p>Order Date: 2024-12-30</p>
+                </div>
+                <div class="order-summary">
+                    <p><strong>Items:</strong> Chocolate Cake, Vanilla Cupcake</p>
+                    <p><strong>Total:</strong> $20.00</p>
+                    <button class="btn-track">Track Order</button>
+                </div>
+            </div>
+
+            <!-- Another Current Order Example -->
+            <div class="order-card">
+                <div class="order-info">
+                    <h3>Order #002</h3>
+                    <p>Status: <span class="status-shipped">Shipped</span></p>
+                    <p>Order Date: 2024-12-28</p>
+                </div>
+                <div class="order-summary">
+                    <p><strong>Items:</strong> Strawberry Tart, Chocolate Chip Cookies</p>
+                    <p><strong>Total:</strong> $15.50</p>
+                    <button class="btn-track">Track Order</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Past Orders Section -->
+        <section class="orders-section">
+            <h2>Past Orders</h2>
+
+            <div class="order-card">
+                <div class="order-info">
+                    <h3>Order #003</h3>
+                    <p>Status: <span class="status-completed">Completed</span></p>
+                    <p>Order Date: 2024-12-15</p>
+                </div>
+                <div class="order-summary">
+                    <p><strong>Items:</strong> Fruit Tart, Cupcakes</p>
+                    <p><strong>Total:</strong> $12.00</p>
+                </div>
+            </div>
+
+            <!-- Another Past Order -->
+            <div class="order-card">
+                <div class="order-info">
+                    <h3>Order #004</h3>
+                    <p>Status: <span class="status-completed">Completed</span></p>
+                    <p>Order Date: 2024-12-10</p>
+                </div>
+                <div class="order-summary">
+                    <p><strong>Items:</strong> Red Velvet Cake, Muffins</p>
+                    <p><strong>Total:</strong> $18.00</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Track Order Modal -->
+    <div class="popup-overlay" id="track-order-popup">
+        <div class="popup-content">
+            <h2>Track Order</h2>
+            <p id="order-status-text">Loading order status...</p>
+            <button class="popup-close" onclick="closePopup('track-order-popup')">Close</button>
+        </div>
+    </div>
+</main>
+<script>
+    // Mock data for order tracking
+    const orderStatuses = {
+        "001": "In the making",
+        "002": "On delivery",
+        "003": "Delivered",
+        "004": "Delivered",
+    };
+
+    // Function to track the order
+    document.querySelectorAll('.btn-track').forEach((button, index) => {
+        button.addEventListener('click', function () {
+            const orderId = this.parentElement.parentElement.querySelector('h3').innerText.split('#')[1];
+            const status = orderStatuses[orderId] || "Status unavailable";
+
+            // Update the modal with the status
+            document.getElementById('order-status-text').innerText = `Order #${orderId}: ${status}`;
+            document.getElementById('track-order-popup').style.display = 'flex';
+        });
+    });
+
+    // Close popup function (reuse existing function)
+    function closePopup(popupId) {
+        document.getElementById(popupId).style.display = 'none';
+    }
+</script>
+
+<footer>
+    <p>&copy; 2024 Mr. Lowat Bakery. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

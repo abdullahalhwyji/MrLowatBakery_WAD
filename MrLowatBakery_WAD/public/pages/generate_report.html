@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Generate Report - Mr. Lowat Bakery</title>
+        <link rel="stylesheet" href="../assets/style/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../assets/js/generate_report.js" defer></script>
+    </head>
+<body>
+    <header>
+        <nav>
+            <h1>Mr. Lowat Bakery</h1>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="../pages/index.html"><i class="fas fa-home"></i>Home</a></li>
+                    <li><a href="menu.html"><i class="fas fa-cake"></i>Menu</a></li>
+                    <li><a href="https://api.whatsapp.com/send/?phone=60164025451"><i class="fas fa-phone"></i>Contact</a></li>
+                    <li><a href="../pages/profile.html"><i class="fas fa-user"></i>Profile</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="middle-section">
+            <h2>Generate Receipt</h2>
+            <p>Welcome, <strong>John Doe</strong>!</p>
+            <form action="../assets/js/generate_report.js" method="POST">
+                <label for="receipt-type">Select Receipt Type:</label>
+                <select name="receipt_type" id="receipt-type" required>
+                    <option value="detailed">Detailed Receipt</option>
+                    <option value="summary">Summary Receipt</option>
+                </select>
+                <br>
+                <label for="start-date">Start Date:</label>
+                <input type="date" name="start_date" id="start-date" required>
+                <br>
+                <label for="end-date">End Date:</label>
+                <input type="date" name="end_date" id="end-date" required>
+                <br>
+                <button type="submit">Generate PDF</button>
+            </form>
+        </section>
+
+        <style>
+            .transaction-history table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            .transaction-history th, .transaction-history td {
+                padding: 12px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+            .transaction-history th {
+                background-color: #f4f4f4;
+            }
+        </style>
+
+        <section class="transaction-history">
+            <h2>Transaction History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Order ID</th>
+                        <th>Payment Method</th>
+                        <th>Payment Status</th>
+                        <th>Transaction Date</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-table-body">
+                    <tr>
+                        <td>1</td>
+                        <td>1001</td>
+                        <td>Debit card</td>
+                        <td>success</td>
+                        <td>2025-01-01 10:30:00</td>
+                        <td>RM 100.00</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1002</td>
+                        <td>E wallet</td>
+                        <td>failure</td>
+                        <td>2025-01-02 11:00:00</td>
+                        <td>RM 50.00</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1003</td>
+                        <td>QR Pay</td>
+                        <td>success</td>
+                        <td>2025-01-03 14:20:00</td>
+                        <td>RM 75.00</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>1004</td>
+                        <td>Debit Card</td>
+                        <td>pending</td>
+                        <td>2025-01-04 16:00:00</td>
+                        <td>RM 120.00</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>1005</td>
+                        <td>E Wallet</td>
+                        <td>success</td>
+                        <td>2025-01-05 09:15:00</td>
+                        <td>RM 45.00</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>1006</td>
+                        <td>QR Pay</td>
+                        <td>failure</td>
+                        <td>2025-01-06 13:50:00</td>
+                        <td>RM 30.00</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>1007</td>
+                        <td>Debit Card</td>
+                        <td>success</td>
+                        <td>2025-01-07 11:45:00</td>
+                        <td>RM 150.00</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>1008</td>
+                        <td>E Wallet</td>
+                        <td>pending</td>
+                        <td>2025-01-08 08:10:00</td>
+                        <td>RM 60.00</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>1009</td>
+                        <td>QR Pay</td>
+                        <td>success</td>
+                        <td>2025-01-09 15:25:00</td>
+                        <td>RM 90.00</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>1010</td>
+                        <td>Debit Card</td>
+                        <td>failure</td>
+                        <td>2025-01-10 17:40:00</td>
+                        <td>RM 80.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="chart-section">
+            <h2>Transaction Overview</h2>
+            <canvas id="transactionChart"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Mr. Lowat Bakery. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

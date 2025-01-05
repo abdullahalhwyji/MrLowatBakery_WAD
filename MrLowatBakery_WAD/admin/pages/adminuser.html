@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/style/adminuser.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Registered Members</title>
+</head>
+<header>
+    <div class="logo">Mr. Lowat Bakery</div>
+    <div class="icon-links">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<h1>Registered Members</h1>
+<a href="adminhomepage.html" class="back-btn">
+    <i class="fa fa-arrow-left"></i> Back
+</a>
+<main>
+    <div class="container">
+        <div class="member-list">
+            <h2>Member List</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="member-list">
+                <!-- Rows added dynamically by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="member-details">
+            <h2>Member Details</h2>
+            <div id="details-content">
+                <p>Select a member to view details.</p>
+            </div>
+            <div id="order-history" style="display: none;">
+                <h3>Order History</h3>
+                <table id="order-table">
+                    <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="order-list">
+                    <!-- Order history rows will go here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="../assets/js/adminuser.js"></script>
+</html>
