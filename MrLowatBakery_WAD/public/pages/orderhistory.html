@@ -136,45 +136,45 @@
         </section>
     </div>
 
-    <!-- Track Order Modal -->
-    <div class="popup-overlay" id="track-order-popup">
-        <div class="popup-content">
-            <h2>Track Order</h2>
-            <p id="order-status-text">Loading order status...</p>
-            <button class="popup-close" onclick="closePopup('track-order-popup')">Close</button>
-        </div>
+    <!-- Green Button for Transaction History -->
+    <div class="transaction-history-button">
+        <a href="../pages/generate_report.html" class="btn-transaction-history">
+            <i class="fas fa-receipt"></i> Transaction History
+        </a>
     </div>
 </main>
-<script>
-    // Mock data for order tracking
-    const orderStatuses = {
-        "001": "In the making",
-        "002": "On delivery",
-        "003": "Delivered",
-        "004": "Delivered",
-    };
-
-    // Function to track the order
-    document.querySelectorAll('.btn-track').forEach((button, index) => {
-        button.addEventListener('click', function () {
-            const orderId = this.parentElement.parentElement.querySelector('h3').innerText.split('#')[1];
-            const status = orderStatuses[orderId] || "Status unavailable";
-
-            // Update the modal with the status
-            document.getElementById('order-status-text').innerText = `Order #${orderId}: ${status}`;
-            document.getElementById('track-order-popup').style.display = 'flex';
-        });
-    });
-
-    // Close popup function (reuse existing function)
-    function closePopup(popupId) {
-        document.getElementById(popupId).style.display = 'none';
-    }
-</script>
 
 <footer>
     <p>&copy; 2024 Mr. Lowat Bakery. All rights reserved.</p>
 </footer>
 
+<style>
+    .transaction-history-button {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-transaction-history {
+        display: inline-block;
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-transaction-history:hover {
+        background-color: #218838;
+    }
+
+    .btn-transaction-history i {
+        margin-right: 8px;
+    }
+</style>
 </body>
 </html>
