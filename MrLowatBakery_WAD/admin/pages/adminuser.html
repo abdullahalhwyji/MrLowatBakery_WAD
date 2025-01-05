@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/style/adminuser.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Registered Members</title>
 </head>
+<body>
 <header>
     <div class="logo">Mr. Lowat Bakery</div>
     <div class="icon-links">
@@ -15,7 +16,7 @@
 </header>
 
 <h1>Registered Members</h1>
-<a href="adminhomepage.html" class="back-btn">
+<a href="adminhomepage.php" class="back-btn">
     <i class="fa fa-arrow-left"></i> Back
 </a>
 <main>
@@ -60,5 +61,28 @@
         </div>
     </div>
 </main>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    fetch('../php/fetch_users.php')
+        .then(response => response.json())
+        .then(users => {
+            const memberList = document.getElementById("member-list");
+            users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td><button onclick="showMemberDetails(${user.user_id})">View Details</button></td>
+                `;
+                memberList.appendChild(row);
+            });
+        });
+});
+
+function showMemberDetails(userId) {
+    // Implement the function to show member details and order history
+}
+</script>
 <script src="../assets/js/adminuser.js"></script>
+</body>
 </html>

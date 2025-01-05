@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = ""; // Use your database password
-$dbname = "mrlowatbakery_new";
+$dbname = "mrlowatbakery";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

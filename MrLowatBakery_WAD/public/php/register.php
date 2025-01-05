@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the statement and check for errors
     if ($stmt->execute()) {
-        echo "Registration successful! <a href='login.php'>Login here</a>";
+        echo "Registration successful! <a href='../pages/login.html'>Login here</a>";
     } else {
         echo "Error: " . htmlspecialchars($stmt->error, ENT_QUOTES, 'UTF-8');
     }

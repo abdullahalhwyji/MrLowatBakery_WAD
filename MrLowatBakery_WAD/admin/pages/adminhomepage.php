@@ -1,3 +1,7 @@
+<?php
+session_start();
+include '../../public/php/connection.php'; // Include database connection
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +18,7 @@
     <div class="icon-links">
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
+    
 </header>
 
 <div class="container">
@@ -278,27 +283,36 @@
             </form>
 
             <!-- Add Product Form -->
-            <form id="product-form">
-                <input type="hidden" id="product-id"> <!-- Hidden input for Edit Mode -->
+            <form id="product-form" method="post" action="../php/add_produts.php" enctype="multipart/form-data">
+                <input type="hidden" id="product-id" name="product_id"> <!-- Hidden input for Edit Mode -->
                 <label for="product-name">Product Name:</label>
-                <input type="text" id="product-name" placeholder="Enter product name" required>
+                <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
 
                 <label for="product-price">Price:</label>
-                <input type="number" id="product-price" placeholder="Enter price" required>
+                <input type="number" id="product-price" name="price" placeholder="Enter price" required>
 
                 <label for="product-stock">Stock:</label>
-                <input type="number" id="product-stock" placeholder="Enter stock quantity" required>
+                <input type="number" id="product-stock" name="stock" placeholder="Enter stock quantity" required>
 
                 <label for="product-category">Category:</label>
-                <select id="product-category" required>
+                <select id="product-category" name="category" required>
                     <option value="" disabled selected>Select category</option>
+                    <option value="cake">Cake</option>
+                    <option value="cupcake">Cupcake</option>
+                    <option value="tart">Tart</option>
+                    <option value="brownies">brownies</option>
+                    <option value="burnedcheesecake">Burnedcheesecake</option>
+                    <option value="specialpromotion">Specialpromotion</option>
                 </select>
 
                 <label for="product-image">Product Image:</label>
-                <input type="file" id="product-image" accept="image/*">
+                <input type="file" id="product-image" name="image_url" accept="image/*" required>
 
-                <button type="submit">Add Product</button>
+                <button type="submit" id="add-product" name="add-product">Add Product</button>
+                <button type="submit" id="edit-product" name="edit-product" style="display: none;">Edit Product</button>
             </form>
+
+            <button id="add-btn-product" onclick="addProduct()">Back to add new product</button>
 
             <!-- Product Table -->
             <h3>Product List</h3>
@@ -316,12 +330,62 @@
                 </thead>
                 <tbody>
                 <!-- Dynamically added rows -->
+                 <?php 
+                 $sql = "SELECT * FROM products";
+                 $result = $conn->query($sql);
+                 while($row = $result->fetch_assoc()) {
+                ?>
+                <tr>
+                    <td><?=$row["product_id"];?></td>
+                    <td><?=$row["name"];?></td>
+                    <td><?=$row["price"];?></td>
+                    <td><?=$row["stock"];?></td>
+                    <td><?=$row["category"];?></td>
+                    <td><img src="../../public/assets/images/<?=$row["image_url"];?>" width="50" height="50"></td>
+                    <td>
+                        <button class="edit-btn" onclick="editProduct('<?=$row["product_id"];?>', '<?=$row["name"];?>', '<?=$row["price"];?>', '<?=$row["stock"];?>', '<?=$row["category"];?>')">Edit</button>
+                        <a href="../php/delete.php?delete_id=<?=$row["product_id"];?>" onclick="return confirm('Are you sure to delete?')"><button class="delete-btn">Delete</button></a>
+                    </td>
+                </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
+        function editProduct(product_id, name, price, stock, category) {
+            document.getElementById("product-id").value = product_id;
+            document.getElementById("product-name").value = name;
+            document.getElementById("product-price").value = price;
+            document.getElementById("product-stock").value = stock;
+            document.getElementById("product-category").value = category;
+
+            document.getElementById("product-image").removeAttribute('required');
+            document.getElementById("add-product").style.display = "none";
+            document.getElementById("edit-product").style.display = "block";
+            document.getElementById("add-btn-product").style.display = "block";
+
+            const formElement = document.getElementById('product-form');
+            formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function addProduct(){
+            document.getElementById("product-id").value = '';
+            document.getElementById("product-name").value = '';
+            document.getElementById("product-price").value = '';
+            document.getElementById("product-stock").value = '';
+            document.getElementById("product-category").value = '';
+
+            document.getElementById("product-image").setAttribute('required', 'true');
+            document.getElementById("add-product").style.display = "block";
+            document.getElementById("edit-product").style.display = "none";
+            document.getElementById("add-btn-product").style.display = "none";
+
+            const formElement = document.getElementById('product-form');
+            formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
         // Initial Data Structure (for demonstration)
         const data = {
             cake: [],
@@ -338,8 +402,8 @@
         const productCategorySelect = document.getElementById("product-category");
         const addCategoryForm = document.getElementById("add-category-form");
         const newCategoryInput = document.getElementById("new-category-name");
-        const productForm = document.getElementById("product-form");
-        const productTableBody = document.getElementById("product-table").querySelector("tbody");
+        // const productForm = document.getElementById("product-form");
+        // const productTableBody = document.getElementById("product-table").querySelector("tbody");
 
         // Toggle Management Section
         manageProductsBtn.addEventListener("click", () => {
@@ -370,156 +434,156 @@
         });
 
         // Add New Product or Update Product
-        productForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const productId = document.getElementById("product-id").value;
-            const productName = document.getElementById("product-name").value.trim();
-            const productPrice = parseFloat(document.getElementById("product-price").value);
-            const productStock = parseInt(document.getElementById("product-stock").value, 10);
-            const productCategory = document.getElementById("product-category").value;
-            const productImage = document.getElementById("product-image").files[0]?.name || "placeholder.jpg";
+        // productForm.addEventListener("submit", (e) => {
+        //     e.preventDefault();
+        //     const productId = document.getElementById("product-id").value;
+        //     const productName = document.getElementById("product-name").value.trim();
+        //     const productPrice = parseFloat(document.getElementById("product-price").value);
+        //     const productStock = parseInt(document.getElementById("product-stock").value, 10);
+        //     const productCategory = document.getElementById("product-category").value;
+        //     const productImage = document.getElementById("product-image").files[0]?.name || "placeholder.jpg";
 
-            if (productName && productCategory && !isNaN(productPrice) && !isNaN(productStock)) {
-                const newProduct = { id: productId || Date.now(), name: productName, price: productPrice, stock: productStock, image: productImage };
+        //     if (productName && productCategory && !isNaN(productPrice) && !isNaN(productStock)) {
+        //         const newProduct = { id: productId || Date.now(), name: productName, price: productPrice, stock: productStock, image: productImage };
 
-                // If productId exists, update product in data, otherwise add new product
-                if (productId) {
-                    const categoryIndex = Object.keys(data).indexOf(productCategory);
-                    data[Object.keys(data)[categoryIndex]] = data[Object.keys(data)[categoryIndex]].map(p =>
-                        p.id === parseInt(productId) ? newProduct : p
-                    );
-                } else {
-                    data[productCategory].push(newProduct);
-                }
+        //         // If productId exists, update product in data, otherwise add new product
+        //         if (productId) {
+        //             const categoryIndex = Object.keys(data).indexOf(productCategory);
+        //             data[Object.keys(data)[categoryIndex]] = data[Object.keys(data)[categoryIndex]].map(p =>
+        //                 p.id === parseInt(productId) ? newProduct : p
+        //             );
+        //         } else {
+        //             data[productCategory].push(newProduct);
+        //         }
 
-                renderProductTable();
-                productForm.reset();
-                document.getElementById("product-id").value = ''; // Reset product ID after form submission
-            }
-        });
+        //         renderProductTable();
+        //         productForm.reset();
+        //         document.getElementById("product-id").value = ''; // Reset product ID after form submission
+        //     }
+        // });
 
         // Render Product Table
-        function renderProductTable() {
-            productTableBody.innerHTML = "";
-            Object.entries(data).forEach(([category, products]) => {
-                products.forEach((product, index) => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${product.id}</td>
-                        <td>${product.name}</td>
-                        <td>${product.price}</td>
-                        <td>${product.stock}</td>
-                        <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
-                        <td><img src="${product.image}" alt="${product.name}" width="50"></td>
-                        <td>
-                            <button class="edit-btn" data-id="${product.id}" data-category="${category}">Edit</button>
-                            <button class="delete-btn" data-id="${product.id}" data-category="${category}">Delete</button>
-                        </td>
-                    `;
-                    productTableBody.appendChild(row);
-                });
-            });
-        }
+        // function renderProductTable() {
+        //     productTableBody.innerHTML = "";
+        //     Object.entries(data).forEach(([category, products]) => {
+        //         products.forEach((product, index) => {
+        //             const row = document.createElement("tr");
+        //             row.innerHTML = `
+        //                 <td>${product.id}</td>
+        //                 <td>${product.name}</td>
+        //                 <td>${product.price}</td>
+        //                 <td>${product.stock}</td>
+        //                 <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
+        //                 <td><img src="${product.image}" alt="${product.name}" width="50"></td>
+        //                 <td>
+        //                     <button class="edit-btn" data-id="${product.id}" data-category="${category}">Edit</button>
+        //                     <button class="delete-btn" data-id="${product.id}" data-category="${category}">Delete</button>
+        //                 </td>
+        //             `;
+        //             productTableBody.appendChild(row);
+        //         });
+        //     });
+        // }
 
         // Handle Edit Product
-        document.getElementById("product-table").addEventListener("click", (e) => {
-            if (e.target.classList.contains("edit-btn")) {
-                const productId = e.target.getAttribute("data-id");
-                const category = e.target.getAttribute("data-category");
-                const product = data[category].find(p => p.id === parseInt(productId));
+        // document.getElementById("product-table").addEventListener("click", (e) => {
+        //     if (e.target.classList.contains("edit-btn")) {
+        //         const productId = e.target.getAttribute("data-id");
+        //         const category = e.target.getAttribute("data-category");
+        //         const product = data[category].find(p => p.id === parseInt(productId));
 
-            if (product) {
-                            document.getElementById("product-id").value = product.id;
-                            document.getElementById("product-name").value = product.name;
-                            document.getElementById("product-price").value = product.price;
-                            document.getElementById("product-stock").value = product.stock;
-                            document.getElementById("product-category").value = category;
-                        }
-                    } else if (e.target.classList.contains("delete-btn")) {
-                        const productId = e.target.getAttribute("data-id");
-                        const category = e.target.getAttribute("data-category");
-                        data[category] = data[category].filter(p => p.id !== parseInt(productId));
-                        renderProductTable();
-                    }
-                });
+        //     if (product) {
+        //                     document.getElementById("product-id").value = product.id;
+        //                     document.getElementById("product-name").value = product.name;
+        //                     document.getElementById("product-price").value = product.price;
+        //                     document.getElementById("product-stock").value = product.stock;
+        //                     document.getElementById("product-category").value = category;
+        //                 }
+        //             } else if (e.target.classList.contains("delete-btn")) {
+        //                 const productId = e.target.getAttribute("data-id");
+        //                 const category = e.target.getAttribute("data-category");
+        //                 data[category] = data[category].filter(p => p.id !== parseInt(productId));
+        //                 renderProductTable();
+        //             }
+        //         });
 
-                // Initialize
-                populateCategories();
-                renderProductTable();
+        //         // Initialize
+        //         populateCategories();
+        //         renderProductTable();
 
-                document.addEventListener("DOMContentLoaded", function() {
-            const productTableBody = document.getElementById("product-table").querySelector("tbody");
+        //         document.addEventListener("DOMContentLoaded", function() {
+        //     const productTableBody = document.getElementById("product-table").querySelector("tbody");
 
-            // Function to fetch and render products
-            function fetchProducts() {
-                fetch('admin_product.php') // Fetch from PHP backend
-                    .then(response => response.text())
-                    .then(data => {
-                        productTableBody.innerHTML = data;
-                        attachEditDeleteEvents(); // Attach events after rendering the table
-                    });
-            }
+        //     // Function to fetch and render products
+        //     function fetchProducts() {
+        //         fetch('admin_product.php') // Fetch from PHP backend
+        //             .then(response => response.text())
+        //             .then(data => {
+        //                 productTableBody.innerHTML = data;
+        //                 attachEditDeleteEvents(); // Attach events after rendering the table
+        //             });
+        //     }
 
-            // Attach edit and delete button events
-            function attachEditDeleteEvents() {
-                const editButtons = document.querySelectorAll('.edit-button');
-                const deleteButtons = document.querySelectorAll('.delete-button');
+        //     // Attach edit and delete button events
+        //     function attachEditDeleteEvents() {
+        //         const editButtons = document.querySelectorAll('.edit-button');
+        //         const deleteButtons = document.querySelectorAll('.delete-button');
 
-                // Edit Product
-                editButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const productId = this.getAttribute('data-id');
-                        // Fetch product data by ID for editing
-                        fetch(`get_product.php?id=${productId}`) // Replace with actual PHP script for fetching product
-                            .then(response => response.json())
-                            .then(product => {
-                                // Populate form fields with product data
-                                document.getElementById('product-name').value = product.name;
-                                document.getElementById('product-price').value = product.price;
-                                document.getElementById('product-stock').value = product.stock;
-                                document.getElementById('product-category').value = product.category;
-                                document.getElementById('product-image').value = product.image_url;
-                                document.getElementById('product-id').value = product.id; // Hidden field for product ID
-                            });
-                    });
-                });
+        //         // Edit Product
+        //         editButtons.forEach(button => {
+        //             button.addEventListener('click', function() {
+        //                 const productId = this.getAttribute('data-id');
+        //                 // Fetch product data by ID for editing
+        //                 fetch(`get_product.php?id=${productId}`) // Replace with actual PHP script for fetching product
+        //                     .then(response => response.json())
+        //                     .then(product => {
+        //                         // Populate form fields with product data
+        //                         document.getElementById('product-name').value = product.name;
+        //                         document.getElementById('product-price').value = product.price;
+        //                         document.getElementById('product-stock').value = product.stock;
+        //                         document.getElementById('product-category').value = product.category;
+        //                         document.getElementById('product-image').value = product.image_url;
+        //                         document.getElementById('product-id').value = product.id; // Hidden field for product ID
+        //                     });
+        //             });
+        //         });
 
-                // Delete Product
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const productId = this.getAttribute('data-id');
-                        if (confirm('Are you sure you want to delete this product?')) {
-                            fetch(`admin_product.php?delete_id=${productId}`, {
-                                method: 'GET'
-                            }).then(response => response.text())
-                            .then(data => {
-                                alert(data);
-                                fetchProducts(); // Reload products after deletion
-                            });
-                        }
-                    });
-                });
-            }
+        //         // Delete Product
+        //         deleteButtons.forEach(button => {
+        //             button.addEventListener('click', function() {
+        //                 const productId = this.getAttribute('data-id');
+        //                 if (confirm('Are you sure you want to delete this product?')) {
+        //                     fetch(`admin_product.php?delete_id=${productId}`, {
+        //                         method: 'GET'
+        //                     }).then(response => response.text())
+        //                     .then(data => {
+        //                         alert(data);
+        //                         fetchProducts(); // Reload products after deletion
+        //                     });
+        //                 }
+        //             });
+        //         });
+        //     }
 
-            // Call to load products on page load
-            fetchProducts();
+        //     // Call to load products on page load
+        //     fetchProducts();
 
-            // Handle form submission for adding/editing product
-            document.getElementById('product-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+        //     // Handle form submission for adding/editing product
+        //     document.getElementById('product-form').addEventListener('submit', function(e) {
+        //         e.preventDefault();
 
-                const formData = new FormData(this);
-                fetch('admin_product.php', {
-                    method: 'POST',
-                    body: formData
-                }).then(response => response.text())
-                .then(data => {
-                    alert(data);
-                    fetchProducts(); // Reload products after add/edit
-                    this.reset(); // Reset the form after submission
-                });
-            });
-        });
+        //         const formData = new FormData(this);
+        //         fetch('admin_product.php', {
+        //             method: 'POST',
+        //             body: formData
+        //         }).then(response => response.text())
+        //         .then(data => {
+        //             alert(data);
+        //             fetchProducts(); // Reload products after add/edit
+        //             this.reset(); // Reset the form after submission
+        //         });
+        //     });
+        // });
     </script>
 
         <!-- Users Section (Initially hidden) -->
@@ -663,7 +727,7 @@
     // Logout function
     function logout() {
         alert('Logged out successfully!');
-        window.location.href = '../../public/pages/index.html'; // Redirect to homepage
+        window.location.href = '../../public/pages/logout.php'; // Redirect to homepage
     }
 
     // Function to show Profile Section

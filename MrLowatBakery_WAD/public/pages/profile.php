@@ -1,3 +1,19 @@
+<?php
+session_start();
+include('../php/connection.php');
+
+if(!isset($_SESSION["user_id"])){
+    header("Location: login.html");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +26,14 @@
 <body>
 <header>
     <h1>Mr. Lowat Bakery</h1>
+    <!-- Search Bar for Categories -->
+    <div class="search-bar">
+    <input type="text" id="categorySearchInput" placeholder="Search for categories..." onkeyup="searchCategories()">
+    </div>
+
+    </div>
     <div class="icon-links">
-        <a href="../pages/index.html">
+        <a href="../pages/index.php">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
@@ -23,10 +45,21 @@
             <i class="fas fa-phone-alt"></i>
             <span>Contact</span>
         </a>
-        <a href="../pages/profile.html">
+        <?php if(isset($_SESSION["user_id"])){ ?>
+        <a href="../pages/profile.php">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </a>
+        <a href="../pages/logout.php" onclick="return confirm('Are you sure you want to logout?')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+        <?php }else{ ?>
+        <a href="../pages/login.html">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Login</span>
+        </a>
+        <?php } ?>
     </div>
 </header>
 <!-- About Us Popup -->
@@ -77,30 +110,25 @@
                 <div class="info-item">
                     <i class="fas fa-user-circle"></i>
                     <strong>Name:</strong>
-                    <span id="profileName">John Doe</span>
+                    <span id="profileName"><?=$row["name"];?></span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-envelope"></i>
                     <strong>Email:</strong>
-                    <span id="profileEmail">johndoe@example.com</span>
+                    <span id="profileEmail"><?=$row["email"];?></span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-map-marker-alt"></i>
                     <strong>Address:</strong>
-                    <span id="profileAddress">123 Baker Street, Sweet City</span>
+                    <span id="profileAddress"><?=$row["address"];?></span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-phone"></i>
                     <strong>Telephone:</strong>
-                    <span id="profileTel">012-3456789</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-birthday-cake"></i>
-                    <strong>Date of Birth:</strong>
-                    <span id="profileDOB">01/01/1990</span>
+                    <span id="profileTel"><?=$row["tel"];?></span>
                 </div>
             </div>
-            <a href="../pages/profileedit.html" class="edit-btn">Edit Profile</a>
+            <a href="../pages/profileedit.php" class="edit-btn">Edit Profile</a>
         </div>
     </div>
 </main>

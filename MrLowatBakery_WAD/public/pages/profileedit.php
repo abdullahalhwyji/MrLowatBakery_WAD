@@ -1,3 +1,35 @@
+<?php
+session_start();
+include('../php/connection.php');
+
+if(!isset($_SESSION["user_id"])){
+    header("Location: login.html");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+if(isset($_POST["submit"])){
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $address = $_POST["address"];
+    $tel = $_POST["tel"];
+
+    $sql = "UPDATE users SET name = '$name', email = '$email', address = '$address', tel = '$tel' WHERE user_id = '$user_id'";
+    if(mysqli_query($conn, $sql)){
+        $_SESSION['name'] = $name;
+        echo "<script>alert('Profile updated successfully!');window.location.href='profile.php';</script>";
+    }else{
+        echo "<script>alert('Error updating profile!')</script>";
+    }
+}
+
+
+$sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +43,7 @@
 <header>
     <h1>Mr. Lowat Bakery</h1>
     <div class="icon-links">
-        <a href="../pages/homepage.html">
+        <a href="../pages/index.php">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
@@ -23,10 +55,21 @@
             <i class="fas fa-phone-alt"></i>
             <span>Contact</span>
         </a>
-        <a href="../pages/profile.html">
+        <?php if(isset($_SESSION["user_id"])){ ?>
+        <a href="../pages/profile.php">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </a>
+        <a href="../pages/logout.php" onclick="return confirm('Are you sure you want to logout?')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+        <?php }else{ ?>
+        <a href="../pages/login.html">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Login</span>
+        </a>
+        <?php } ?>
     </div>
 </header>
 <!-- About Us Popup -->
@@ -70,37 +113,32 @@
         }
 </script>
 <main>
-    <form id="profileForm">
+    <form id="profileForm" method="post" action="">
         <h1>Profile Edit</h1>
         <p>Manage and update your account details.</p>
 
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
+            <input type="text" id="name" name="name" placeholder="Your name" value="<?=$row["name"];?>" required>
         </div>
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Your email" required>
+            <input type="email" id="email" name="email" placeholder="Your email" value="<?=$row["email"];?>" required>
         </div>
 
         <div class="form-group">
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" placeholder="Your address" required>
+            <input type="text" id="address" name="address" placeholder="Your address" value="<?=$row["address"];?>" required>
         </div>
 
         <div class="form-group">
             <label for="tel">Telephone:</label>
-            <input type="tel" id="tel" name="tel" placeholder="01X - 000 0000" required pattern="[0-9]{3}-[0-9]{7}">
-        </div>
-
-        <div class="form-group">
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" required>
+            <input type="tel" id="tel" name="tel" placeholder="01X - 000 0000" value="<?=$row["tel"];?>" required>
         </div>
 
         <div class="form-button">
-            <button type="submit">Save Changes</button>
+            <button type="submit" name="submit">Save Changes</button>
         </div>
     </form>
 

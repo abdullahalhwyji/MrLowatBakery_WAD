@@ -1,3 +1,7 @@
+<?php
+session_start();
+include('../php/connection.php')
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,18 +34,73 @@
             <i class="fas fa-phone-alt"></i>
             <span>Contact</span>
         </a>
+        <?php if(isset($_SESSION["user_id"])){ ?>
+        <a href="../pages/profile.php">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+        <a href="../pages/logout.php" onclick="return confirm('Are you sure you want to logout?')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+        <?php }else{ ?>
         <a href="../pages/login.html">
             <i class="fas fa-sign-in-alt"></i>
             <span>Login</span>
         </a>
+        <?php } ?>
     </div>
 </header>
+
+<!-- About Us Popup -->
+<div class="popup-overlay" id="about-us-popup">
+    <div class="popup-content">
+        <h2>About Us</h2>
+        <p>Mr. Lowat Bakery is a home-based and family-owned bakery that has been serving the community for years.
+            We offer a wide range of freshly baked goods, including brownies, cheese tarts, cakes, and cupcakes. Our products are made with the finest ingredients and are baked fresh daily. Whether you're looking for a sweet treat or a snack, we have something for everyone. Visit us today and experience the delicious taste of Mr. Lowat Bakery.</p>
+        <button class="popup-close" onclick="closePopup('about-us-popup')">Close</button>
+    </div>
+</div>
+
+<!-- Contact Popup -->
+<div class="popup-overlay" id="contact-popup">
+    <div class="popup-content">
+        <h2>Contact</h2>
+        <p>Phone: 016-402-5451</p>
+        <p><a href="https://api.whatsapp.com/send/?phone=60164025451" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></p>
+        <p>
+            Follow us on social media:
+            <a href="https://www.facebook.com/mrlowatbakery/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>,
+            <a href="https://www.instagram.com/mrlowatbake/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        </p>
+        <button class="popup-close" onclick="closePopup('contact-popup')">Close</button>
+    </div>
+</div>
+<script>
+    // Open "About Us" popup
+        document.getElementById('about-us-btn').addEventListener('click', function() {
+            document.getElementById('about-us-popup').style.display = 'flex';
+        });
+
+        // Open "Contact Us" popup
+        document.getElementById('contact-btn').addEventListener('click', function() {
+            document.getElementById('contact-popup').style.display = 'flex';
+        });
+
+        // Close popup function
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+</script>
+
 
 <div class="container">
     <!-- Left Section -->
     <div class="left-section">
         <h3>Navigation</h3>
-        <button class="nav-btn" onclick="location.href='../pages/login.html'"><i class="fas fa-user"></i> Profile</button>
+        <?php if(isset($_SESSION["user_id"])){ ?>
+        <button class="nav-btn" onclick="location.href='../pages/profile.php'"><i class="fas fa-user"></i> Profile</button>
+        <?php } ?>
         <button id="menu-category-btn" class="nav-btn dropdown-btn"><i class="fas fa-cake"></i> Menu Category</button>
         <div id="menu-category-dropdown" class="dropdown-content">
             <button onclick="showCategory('cake')" class="light-orange">Cake</button>
