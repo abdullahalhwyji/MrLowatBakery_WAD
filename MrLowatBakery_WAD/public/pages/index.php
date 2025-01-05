@@ -89,9 +89,44 @@
     
         <!-- Order More Section -->
         <h2>Order More</h2>
-        <div class="category-list" id="order-more-container">
-            <!-- Product details will be dynamically inserted here -->
+        <?php
+// Include the connection file
+include('../php/connection.php');
+
+// Fetch 6 random products from different categories
+$query = "SELECT name, description, image_url, category 
+          FROM products 
+          GROUP BY category 
+          ORDER BY RAND() 
+          LIMIT 6";
+
+$result = mysqli_query($conn, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $name = htmlspecialchars($row['name']); // Sanitize output
+        $description = htmlspecialchars($row['description']);
+        $imageUrl = htmlspecialchars($row['image_url']);
+
+        echo <<<HTML
+        <div class="order-more-item">
+            <img src="$imageUrl" alt="$name" class="order-more-image">
+            <div class="order-more-details">
+                <h3>$name</h3>
+                <p>$description</p>
+            </div>
+            <button class="customize-btn" onclick="addToCart('$name')">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
+HTML;
+    }
+} else {
+    echo '<p>No products available.</p>';
+}
+?>
+
+
     </div>
     
     <!-- Right Section -->
