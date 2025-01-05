@@ -55,89 +55,45 @@
         <button class="nav-btn" onclick="location.href='../pages/login.html'"><i class="fas fa-receipt"></i> My Orders</button>
     </div>
 
-    <!-- Middle Section -->
-    <div class="middle-section">
-        <h2>Featured Items</h2>
-        <div class="featured-items">
-            <div class="featured-item">
-                <img src="../assets/images/feature_cupcake2.jpg" alt="Cupcakes">
-                <h3 style="font-size: 1rem;">Cupcakes</h3>
-                <p style="font-size: 0.9rem;">Delicious, moist cupcakes available in various flavors.</p>
+    <div class="container">
+        <!-- Middle Section -->
+        <div class="middle-section">
+            <h2>Featured Items</h2>
+            <div class="featured-items">
+                <div class="featured-item">
+                    <img src="../assets/images/feature_cupcake2.jpg" alt="Cupcakes">
+                    <h3 style="font-size: 1rem;">Cupcakes</h3>
+                    <p style="font-size: 0.9rem;">Delicious, moist cupcakes available in various flavors.</p>
+                </div>
+                <div class="featured-item">
+                    <img src="../assets/images/feature_brownies.jpg" alt="Brownies">
+                    <h3 style="font-size: 1rem;">Brownies</h3>
+                    <p style="font-size: 0.9rem;">Rich, chocolatey brownies with a chewy texture.</p>
+                </div>
+                <div class="featured-item">
+                    <img src="../assets/images/feature_cake.jpg" alt="Cake">
+                    <h3 style="font-size: 1rem;">Cake</h3>
+                    <p style="font-size: 0.9rem;">Moist and flavorful cakes perfect for celebrations.</p>
+                </div>
+                <div class="featured-item">
+                    <img src="../assets/images/feature_burned_cheesecake_6inch.jpg" alt="Burned Cheesecake">
+                    <h3 style="font-size: 1rem;">Burned Cheesecake</h3>
+                    <p style="font-size: 0.9rem;">Spanish dessert with a burnt top and creamy interior.</p>
+                </div>
+                <div class="featured-item">
+                    <img src="../assets/images/feature_tart.jpg" alt="Tart">
+                    <h3 style="font-size: 1rem;">Tart</h3>
+                    <p style="font-size: 0.9rem;">Crispy pastry filled with sweet or savory fillings.</p>
+                </div>
             </div>
-            <div class="featured-item">
-                <img src="../assets/images/feature_brownies.jpg" alt="Brownies">
-                <h3 style="font-size: 1rem;">Brownies</h3>
-                <p style="font-size: 0.9rem;">Rich, chocolatey brownies with a chewy texture.</p>
-            </div>
-            <div class="featured-item">
-                <img src="../assets/images/feature_cake.jpg" alt="Cake">
-                <h3 style="font-size: 1rem;">Cake</h3>
-                <p style="font-size: 0.9rem;">Moist and flavorful cakes perfect for celebrations.</p>
-            </div>
-            <div class="featured-item">
-                <img src="../assets/images/feature_burned_cheesecake_6inch.jpg" alt="Burned Cheesecake">
-                <h3 style="font-size: 1rem;">Burned Cheesecake</h3>
-                <p style="font-size: 0.9rem;">Spanish dessert with a burnt top and creamy interior.</p>
-            </div>
-            <div class="featured-item">
-                <img src="../assets/images/feature_tart.jpg" alt="Tart">
-                <h3 style="font-size: 1rem;">Tart</h3>
-                <p style="font-size: 0.9rem;">Crispy pastry filled with sweet or savory fillings.</p>
-            </div>
-        </div>
-
+    
         <!-- Order More Section -->
         <h2>Order More</h2>
-        <div class="category-list">
-            <!-- Mini Cupcakes -->
-            <div class="order-more-item">
-                <img src="../assets/images/mini_cupcakes.jpg" alt="Mini Cupcakes" class="order-more-image">
-                <div class="order-more-details">
-                    <h3>Mini Cupcakes 16 pcs</h3>
-                    <p>Flavors: Vanilla, Chocolate, Red Velvet, Pandan, with choices of cream.</p>
-                </div>
-                <button class="customize-btn" onclick="addToCart('Mini Cupcakes 16 pcs')">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-            <!-- 6 Inch Brownies -->
-            <div class="order-more-item">
-                <img src="../assets/images/brownies_6inch.jpg" alt="6 Inch Brownies" class="order-more-image">
-                <div class="order-more-details">
-                    <h3>6 Inch Brownies</h3>
-                    <p>Various topping choices and can add on your own deco/topper.</p>
-                </div>
-                <button class="customize-btn" onclick="addToCart('6 Inch Brownies')">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-
-            <!-- Tiered Sponge Cake -->
-            <div class="order-more-item">
-                <img src="../assets/images/tiered_sponge_cake.jpg" alt="Tiered Sponge Cake" class="order-more-image">
-                <div class="order-more-details">
-                    <h3>Tiered Sponge Cake</h3>
-                    <p>A beautifully layered sponge cake, perfect for any celebration.</p>
-                </div>
-                <button class="customize-btn" onclick="addToCart('Tiered Sponge Cake')">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-
-            <!-- Mini Cheese Tart -->
-            <div class="order-more-item">
-                <img src="../assets/images/mini_cheese_tart.jpg" alt="Mini Cheese Tart" class="order-more-image">
-                <div class="order-more-details">
-                    <h3>Mini Cheese Tart</h3>
-                    <p>Original, Nutella topping, Cadbury topping, Mix and match options available.</p>
-                </div>
-                <button class="customize-btn" onclick="addToCart('Mini Cheese Tart')">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
+        <div class="category-list" id="order-more-container">
+            <!-- Product details will be dynamically inserted here -->
         </div>
     </div>
-
+    
     <!-- Right Section -->
     <div class="right-section">
         <h2>Real-Time Cart</h2>
@@ -556,6 +512,32 @@ function searchCategories() {
 
 
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('fetch_product.php')
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById('order-more-container');
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'order-more-item';
+                    productDiv.innerHTML = `
+                        <img src="../assets/images/${product.image}" alt="${product.name}" class="order-more-image">
+                        <div class="order-more-details">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                        </div>
+                        <button class="customize-btn" onclick="addToCart('${product.name}')">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    `;
+                    container.appendChild(productDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    });
+    </script>
 
 </body>
 </html>
