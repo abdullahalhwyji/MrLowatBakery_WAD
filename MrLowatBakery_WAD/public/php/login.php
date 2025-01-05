@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['role'] = $role;
 
                     // Redirect based on role
-                    header("Location: " . ($role === 'admin' ? "/MrLowatBakery_WAD/MrLowatBakery_WAD/admin/pages/adminhomepage.html" : "../pages/homepage.html"));
+                    header("Location: " . ($role === 'admin' ? "/MrLowatBakery_WAD/MrLowatBakery_WAD/admin/php/adminhomepage.html" : "../php/homepage.php"));
                     exit;
                 } else {
                     $error = "Incorrect password.";
