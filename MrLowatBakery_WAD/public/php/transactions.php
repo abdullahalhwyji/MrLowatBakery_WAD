@@ -3,7 +3,16 @@
 include('connection.php');
 
 // Fetch transaction data from the database
-$sql = "SELECT * FROM transactions";
+$sql = "SELECT t.transaction_id, 
+            t.order_id, 
+            t.payment_method, 
+            t.payment_status, 
+            t.transaction_date, 
+            o.delivery_method,
+            o.total_price, 
+            o.order_status
+            FROM transactions t 
+            JOIN orders o ON t.order_id = o.order_id";
 $result = $conn->query($sql);
 
 $transactions = [];
@@ -12,26 +21,6 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $transactions[] = $row;
     }
-} else {
-    // Fallback to dummy data if no database records
-    $transactions = [
-        [
-            "id" => 1,
-            "transaction_id" => "TRX001",
-            "payment_method" => "Debit Card",
-            "status" => "Pending",
-            "date" => "2024-12-30",
-            "amount" => 20.00,
-        ],
-        [
-            "id" => 2,
-            "transaction_id" => "TRX002",
-            "payment_method" => "E-Wallet",
-            "status" => "Shipped",
-            "date" => "2024-12-28",
-            "amount" => 15.50,
-        ],
-    ];
 }
 
 // Return data as JSON
