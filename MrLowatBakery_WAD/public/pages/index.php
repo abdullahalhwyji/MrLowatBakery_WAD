@@ -107,7 +107,7 @@ include('../php/connection.php')
             <button onclick="showCategory('cupcake')" class="light-orange">Cupcake</button>
             <button onclick="showCategory('tart')" class="light-orange">Tart</button>
             <button onclick="showCategory('brownies')" class="light-orange">Brownies</button>
-            <button onclick="showCategory('burnedCheesecake')" class="light-orange">Burned Cheesecake</button>
+            <button onclick="showCategory('burntCheesecake')" class="light-orange">Burnt Cheesecake</button>
             <button onclick="showCategory('promotion')" class="light-orange">Special Promotion</button>
         </div>
         <button class="nav-btn" onclick="location.href='../pages/login.html'"><i class="fas fa-shopping-cart"></i> Cart</button>
@@ -135,7 +135,7 @@ include('../php/connection.php')
                     <p style="font-size: 0.9rem;">Moist and flavorful cakes perfect for celebrations.</p>
                 </div>
                 <div class="featured-item">
-                    <img src="../assets/images/feature_burned_cheesecake_6inch.jpg" alt="Burned Cheesecake">
+                    <img src="../assets/images/burnt_cheesecake_6inch.jpg" alt="Burnt Cheesecake">
                     <h3 style="font-size: 1rem;">Burned Cheesecake</h3>
                     <p style="font-size: 0.9rem;">Spanish dessert with a burnt top and creamy interior.</p>
                 </div>
@@ -421,9 +421,9 @@ HTML;
         { name: "8 Inch Brownies (Cream Cheese)", description: "Various topping choices and can add on your own deco/topper.", image: "../assets/images/brownies_8inch.jpg", price: 45 },
         { name: "8 Inch Brownies (Nuts)", description: "Various topping choices and can add on your own deco/topper.", image: "../assets/images/brownies_8inch.jpg" , price: 48}
     ],
-    burnedCheesecake: [
-        { name: "Classic Burned Cheesecake", description: "Rich and creamy cheesecake with a caramelized top.", image: "../assets/images/burnt_cheesecake_6inch.jpg", price: 40 },
-        { name: "Custom Design Classic Burned Cheesecake", description: "Design your own cheesecake with a caramelized top.", image: "../assets/images/burnt_cheesecake_6inch.jpg", price: 55 }
+    burntCheesecake: [
+        { name: "Classic Burnt Cheesecake", description: "Rich and creamy cheesecake with a caramelized top.", image: "../assets/images/burnt_cheese_cake_6inch.jpg", price: 40 },
+        { name: "Custom Design Classic Burnt Cheesecake", description: "Design your own cheesecake with a caramelized top.", image: "../assets/images/burnt_cheesecake_6inch.jpg", price: 55 }
     ],
     promotion: [
         { name: "Dessert Table Package A", description: "Combination of Mini Cheese Tart, Moist Cake, Burnt Cheesecake, and Mini Cupcakes at a discounted price.", image: "../assets/images/promotionA.jpg", price: 145 },
